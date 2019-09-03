@@ -23,7 +23,7 @@ void yyerror(char *);
 }
 
 %token	<val> NUM
-%token  ADD SUB MUL PRINT OPEN CLOSE
+%token  ADD SUB MUL DIV PRINT OPEN CLOSE
 %type	<val> exp 
 
 %left ADD SUB
@@ -42,6 +42,7 @@ exp: 			NUM 		{ $$ = dup($1); }
 		| 		exp ADD exp	{ $$ = oper('+', $1, $3);}
 		| 		exp SUB exp	{ $$ = oper('-', $1, $3);}
 		| 		exp MUL exp	{ $$ = oper('*', $1, $3);}
+		|		exp DIV exp { $$ = oper('/', $1, $3);}
 		| 		SUB exp %prec NEG  { $$ = oper('~', $2, "");} 
 		| 		OPEN exp CLOSE	{ $$ = dup($2);}
 ;
