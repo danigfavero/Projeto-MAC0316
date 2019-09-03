@@ -14,7 +14,7 @@
   [uminusS (e : ArithS)]
   [multS   (l : ArithS) (r : ArithS)]
   [divS    (l : ArithS) (r : ArithS)]
-  [ifS     (c : ArithS) (s : ArithS) (n : ArithS)])
+  [ifS     (c : ArithS) (y : ArithS) (n : ArithS)])
 
 
 (define (desugar [as : ArithS]) : ArithC  
@@ -25,7 +25,7 @@
     [divS    (l r) (divC (desugar l) (desugar r))]
     [bminusS (l r) (plusC (desugar l) (multC (numC -1) (desugar r)))]
     [uminusS (e)   (multC (numC -1) (desugar e))]
-    [ifS     (c s n) (ifC (desugar c) (desugar s) (desugar n))]
+    [ifS     (c y n) (ifC (desugar c) (desugar y) (desugar n))]
     ))
 
 
@@ -35,7 +35,7 @@
     [plusC (l r) (+ (interp l) (interp r))]
     [multC (l r) (* (interp l) (interp r))]
     [divC (l r)  (/ (interp l) (interp r))]
-    [ifC (c s n) (if (zero? (interp c fds)) (interp n fds) (interp s fds))]
+    [ifC (c y n) (if (zero? (interp c fds)) (interp n fds) (interp y fds))]
   )
 )
 
