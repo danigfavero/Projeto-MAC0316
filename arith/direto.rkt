@@ -3,14 +3,16 @@
 (define-type ArithC
   [numC (n : number)]
   [plusC (l : ArithC) (r : ArithC)]
-  [multC (l : ArithC) (r : ArithC)])
+  [multC (l : ArithC) (r : ArithC)]
+  [divC (l : ArithC) (r : ArithC)])
 
 (define-type ArithS
   [numS    (n : number)]
   [plusS   (l : ArithS) (r : ArithS)]
   [bminusS (l : ArithS) (r : ArithS)]
   [uminusS (e : ArithS)]
-  [multS   (l : ArithS) (r : ArithS)])
+  [multS   (l : ArithS) (r : ArithS)]
+  [divS (l : ArithS) (r : ArithS)]))
 
 
 (define (desugar [as : ArithS]) : ArithC  
@@ -18,6 +20,7 @@
     [numS    (n)   (numC n)]
     [plusS   (l r) (plusC (desugar l) (desugar r))] 
     [multS   (l r) (multC (desugar l) (desugar r))]
+    [divS    (l r) (divC (desugar l) (desugar r))]
     [bminusS (l r) (plusC (desugar l) (multC (numC -1) (desugar r)))]
     [uminusS (e)   (multC (numC -1) (desugar e))]
     ))
@@ -27,7 +30,8 @@
   (type-case ArithC a
     [numC (n) n]
     [plusC (l r) (+ (interp l) (interp r))]
-    [multC (l r) (* (interp l) (interp r))]))
+    [multC (l r) (* (interp l) (interp r))]
+    [divC (l r)  (/ (interp l) (interp r))]))
 
 
 (define (parse [s : s-expression]) : ArithS
@@ -38,6 +42,7 @@
        (case (s-exp->symbol (first sl))
          [(+) (plusS (parse (second sl)) (parse (third sl)))]
          [(*) (multS (parse (second sl)) (parse (third sl)))]
+         [(*) (divS  (parse (second sl)) (parse (third sl)))]
          [(-) (bminusS (parse (second sl)) (parse (third sl)))]
          ; para o parser precisamos um sinal negativo...
          [(~) (uminusS (parse (second sl)))]
