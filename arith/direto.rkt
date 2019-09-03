@@ -35,7 +35,7 @@
     [plusC (l r) (+ (interp l) (interp r))]
     [multC (l r) (* (interp l) (interp r))]
     [divC (l r)  (/ (interp l) (interp r))]
-    [ifC (c y n) (if (zero? (interp c fds)) (interp n fds) (interp y fds))]
+    [ifC (c y n) (if (zero? (interp c)) (interp n) (interp y))]
   )
 )
 
