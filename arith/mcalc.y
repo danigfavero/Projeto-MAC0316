@@ -4,6 +4,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+char *iffer(char *l, char *r) {
+	char *res = malloc(strlen(l)+strlen(r)+6);
+	sprintf(res, "(if %s %s)", l, r);
+	return res;
+}
 char *oper(char op, char *l, char *r) {
 	char *res = malloc(strlen(l)+strlen(r)+6);
 	sprintf(res, "(%c %s %s)", op, l, r);
@@ -23,12 +29,13 @@ void yyerror(char *);
 }
 
 %token	<val> NUM
-%token  ADD SUB MUL DIV PRINT OPEN CLOSE
+%token  ADD SUB MUL DIV IF PRINT OPEN CLOSE
 %type	<val> exp 
 
 %left ADD SUB
 %left MUL DIV
 %left NEG
+%left IF
 
 /* Gramatica */
 %%
@@ -43,6 +50,7 @@ exp: 			NUM 		{ $$ = dup($1); }
 		| 		exp SUB exp	{ $$ = oper('-', $1, $3);}
 		| 		exp MUL exp	{ $$ = oper('*', $1, $3);}
 		|		exp DIV exp { $$ = oper('/', $1, $3);}
+		|		IF exp exp  { $$ = iffer($2, $3);    }
 		| 		SUB exp %prec NEG  { $$ = oper('~', $2, "");} 
 		| 		OPEN exp CLOSE	{ $$ = dup($2);}
 ;
