@@ -32,10 +32,10 @@ void yyerror(char *);
 %token  ADD SUB MUL DIV IF PRINT OPEN CLOSE
 %type	<val> exp 
 
+%left IF
 %left ADD SUB
 %left MUL DIV
 %left NEG
-%left IF
 
 /* Gramatica */
 %%
