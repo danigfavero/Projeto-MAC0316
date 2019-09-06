@@ -5,9 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-char *iffer(char *l, char *r) {
-	char *res = malloc(strlen(l)+strlen(r)+6);
-	sprintf(res, "(if %s %s)", l, r);
+char *iffer(char *c, char *y, char *n) {
+	char *res = malloc(strlen(c)+strlen(y)+strlen(n)+6);
+	sprintf(res, "(if %s %s %s)", c, y, n);
 	return res;
 }
 char *oper(char op, char *l, char *r) {
@@ -50,7 +50,7 @@ exp: 			NUM 		{ $$ = dup($1); }
 		| 		exp SUB exp	{ $$ = oper('-', $1, $3);}
 		| 		exp MUL exp	{ $$ = oper('*', $1, $3);}
 		|		exp DIV exp { $$ = oper('/', $1, $3);}
-		|		IF exp exp  { $$ = iffer($2, $3);    }
+		|		IF exp exp  { $$ = iffer($2, $3, $4);    }
 		| 		SUB exp %prec NEG  { $$ = oper('~', $2, "");} 
 		| 		OPEN exp CLOSE	{ $$ = dup($2);}
 ;
