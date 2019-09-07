@@ -10,6 +10,13 @@ char *iffer(char *c, char *y, char *n) {
 	sprintf(res, "(if %s %s %s)", c, y, n);
 	return res;
 }
+
+char *rem(char *l, char *r) {
+	char *res = malloc(2*strlen(l)+2*strlen(r)+20);
+	sprintf(res, "(- %s (* (/ %s %s) %s))", l, l, r, r);
+	return res;
+}
+
 char *oper(char op, char *l, char *r) {
 	char *res = malloc(strlen(l)+strlen(r)+6);
 	sprintf(res, "(%c %s %s)", op, l, r);
@@ -29,9 +36,10 @@ void yyerror(char *);
 }
 
 %token	<val> NUM
-%token  ADD SUB MUL DIV IF PRINT OPEN CLOSE
+%token  ADD SUB MUL DIV IF MOD PRINT OPEN CLOSE
 %type	<val> exp 
 
+%left MOD
 %left IF
 %left ADD SUB
 %left MUL DIV
@@ -51,6 +59,7 @@ exp: 			NUM 		{ $$ = dup($1); }
 		| 		exp MUL exp	{ $$ = oper('*', $1, $3);}
 		|		exp DIV exp { $$ = oper('/', $1, $3);}
 		|		IF exp exp exp { $$ = iffer($2, $3, $4);}
+		|		MOD exp exp { $$  = rem($2, $3);     }
 		| 		SUB exp %prec NEG  { $$ = oper('~', $2, "");} 
 		| 		OPEN exp CLOSE	{ $$ = dup($2);}
 ;

@@ -21,6 +21,7 @@ E [Ee][+-]?{D}+
 [-]		{ return SUB; }
 [*]		{ return MUL; }
 [/]		{ return DIV; }
+[%]     { return MOD; }
 (if)    { return IF;  }
 
 .	{  fprintf(stderr, "Entrada ignorada\n-->%s\n", yytext); }
