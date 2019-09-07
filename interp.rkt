@@ -11,7 +11,7 @@
   [orC   (l : ExprC) (r : ExprC)]
   [eqC   (l : ExprC) (r : ExprC)]
   [gtC   (l : ExprC) (r : ExprC)]
-  [ifC   (condição : ExprC) (sim : ExprC) (não : ExprC)]
+  [ifC   (condition : ExprC) (yes : ExprC) (no : ExprC)]
 )
 
 ; definição de função com 1 argumento
@@ -34,7 +34,7 @@
   [orS     (l : ExprS) (r : ExprS)]
   [eqS     (l : ExprS) (r : ExprS)]
   [gtS     (l : ExprS) (r : ExprS)]
-  [ifS     (c : ExprS) (s : ExprS) (n : ExprS)]
+  [ifS     (c : ExprS) (y : ExprS) (n : ExprS)]
 )
 
 ; agora é preciso arrumar desugar interpretador e parser.
@@ -53,7 +53,7 @@
 	  [gtS   	 (l r) (gtC   (desugar l) (desugar r))]
     [bminusS (l r) (plusC (desugar l) (multC (numC -1) (desugar r)))]
     [uminusS (e)   (multC (numC -1) (desugar e))]
-    [ifS     (c s n) (ifC (desugar c) (desugar s) (desugar n))]
+    [ifS     (c y n) (ifC (desugar c) (desugar y) (desugar n))]
   )
 )
 
@@ -73,7 +73,7 @@
     [orC   (l r) (orC   (subst value this l) (subst value this r))]
     [eqC   (l r) (eqC   (subst value this l) (subst value this r))]
     [gtC   (l r) (gtC   (subst value this l) (subst value this r))]
-    [ifC (c s n) (ifC   (subst value this c) (subst value this s) (subst value this n))]
+    [ifC (c y n) (ifC   (subst value this c) (subst value this y) (subst value this n))]
   )
 )
 
@@ -101,7 +101,7 @@
     [orC  (l r)  (b->n (or  (n->b (interp l fds)) (n->b (interp r fds))))]
     [eqC  (l r)  (b->n (=   (interp l fds) (interp r fds)))]
     [gtC  (l r)  (b->n (>   (interp l fds) (interp r fds)))]
-    [ifC (c s n) (if (zero? (interp c fds)) (interp n fds) (interp s fds))]
+    [ifC (c y n) (if (zero? (interp c fds)) (interp n fds) (interp y fds))]
   )
 )
 
@@ -147,4 +147,7 @@
 ;;;                     [fdC 'narciso  'narciso (multC (idC 'narciso) (numC 1000))]
 ;;;                     ))
 
+
+;Facilitador
+(define (interpS [s : s-expression]) (interp (desugar (parse s)) empty))
 (interpS (read))
