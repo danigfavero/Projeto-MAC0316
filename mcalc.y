@@ -36,16 +36,22 @@ void yyerror(char *);
 }
 
 %token	<val> NUM
-%token  ADD SUB MUL DIV IF MOD PRINT OPEN CLOSE
+%token  FUNC IF ADD SUB MUL DIV PRINT OPEN CLOSE
 %type	<val> exp 
 
-%left MOD
+/* Precedência */
+%left FUNC
 %left IF
 %left ADD SUB
 %left MUL DIV
 %left NEG
 
 /* Gramatica */
+/* As operações em nossa gramática (soma, subtração, multiplicação, divisão)
+são lidas como em uma calculadora comum  x + y 
+Nosso if é lido no formato     			 if condição true false
+Nossas funções são lidas no formato 	 função arg
+*/
 %%
 
 input: 		
@@ -54,12 +60,12 @@ input:
 ;
 
 exp: 			NUM 		{ $$ = dup($1); }
+		|		FUNC exp { $$ = func($2);}
+		|		IF exp exp exp { $$ = iffer($2, $3, $4);}
 		| 		exp ADD exp	{ $$ = oper('+', $1, $3);}
 		| 		exp SUB exp	{ $$ = oper('-', $1, $3);}
 		| 		exp MUL exp	{ $$ = oper('*', $1, $3);}
 		|		exp DIV exp { $$ = oper('/', $1, $3);}
-		|		IF exp exp exp { $$ = iffer($2, $3, $4);}
-		|		MOD exp exp { $$  = rem($2, $3);     }
 		| 		SUB exp %prec NEG  { $$ = oper('~', $2, "");} 
 		| 		OPEN exp CLOSE	{ $$ = dup($2);}
 ;

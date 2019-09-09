@@ -138,14 +138,16 @@
 )
 
 
-;;; (define biblioteca (list 
-;;;                     [fdC 'dobro 'x (plusC (idC 'x) (idC 'x))]
-;;;                     [fdC 'quadrado 'y (multC (idC 'y) (idC 'y))]
-;;;                     [fdC 'fatorial 'n (ifC (gtC (idC'n) (numC 1)) 
-;;;                                            (multC (appC 'fatorial (plusC (idC 'n) (numC -1))) (idC 'n))
-;;;                                            (numC 1))]
-;;;                     [fdC 'narciso  'narciso (multC (idC 'narciso) (numC 1000))]
-;;;                     ))
+(define biblioteca (list 
+                    [fdC 'porcentagem 'x (divC 'x 100)]
+                    [fdC 'cubo 'y ( multC (multC (idC 'y) (idC 'y)) idC 'y)]
+                    [fdC 'milhasParaKm 'n (multC 1.609 'n)]
+                    [fdC 'fahrentheitParaCelsius 't (plusC (multC 1.8 't) 32)]
+                    [fdC 'fatorial 'n (ifC (gtC (idC'n) (numC 1)) 
+                                           (multC (appC 'fatorial (plusC (idC 'n) (numC -1))) (idC 'n))
+                                           (numC 1))]
+                  )
+)
 
 
 ;Facilitador
