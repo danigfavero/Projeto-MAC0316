@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+for (( i=1; i<=5; i++))
+do
+    echo Teste $i:
+    cat t$i
+    echo Resposta:
+    ./mcalc <t$i |./interp 
+done
