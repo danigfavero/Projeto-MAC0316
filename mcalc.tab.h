@@ -46,16 +46,21 @@ extern int yydebug;
   enum yytokentype
   {
     NUM = 258,
-    IF = 259,
-    ADD = 260,
-    SUB = 261,
-    MUL = 262,
-    DIV = 263,
-    PRINT = 264,
-    OPEN = 265,
-    CLOSE = 266,
-    FUNC = 267,
-    NEG = 268
+    PORC = 259,
+    IF = 260,
+    ADD = 261,
+    SUB = 262,
+    MUL = 263,
+    DIV = 264,
+    PRINT = 265,
+    OPEN = 266,
+    CLOSE = 267,
+    MPK = 268,
+    FPC = 269,
+    FAT = 270,
+    CUBO = 271,
+    FUNC = 272,
+    NEG = 273
   };
 #endif
 
@@ -64,11 +69,11 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 33 "mcalc.y" /* yacc.c:1909  */
+#line 58 "mcalc.y" /* yacc.c:1909  */
 
 	char *val;
 
-#line 72 "mcalc.tab.h" /* yacc.c:1909  */
+#line 77 "mcalc.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

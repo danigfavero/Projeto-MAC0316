@@ -9,7 +9,7 @@ E [Ee][+-]?{D}+
 
 
 %%
-{D}*[.]?{D}+{E}?	{ yylval.val = yytext; return NUM; }
+({D}*[.]?{D}+{E}?)	{ yylval.val = yytext; return NUM; }
 
 [ \t\n]+	/* pula espacos em branco */
 
@@ -22,7 +22,11 @@ E [Ee][+-]?{D}+
 [*]		{ return MUL; }
 [/]		{ return DIV; }
 (if)    { return IF;  }
-[a-z]+ { return FUNC;}
+(porcentagem) { return PORC;}
+(cubo) { return CUBO;}
+(fatorial) { return FAT;}
+(milhasParaKm) {return MPK;}
+(fahrentheitParaCelsius) {return FPC;}
 
 .	{  fprintf(stderr, "Entrada ignorada\n-->%s\n", yytext); }
 

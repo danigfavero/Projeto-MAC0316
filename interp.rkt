@@ -149,7 +149,4 @@
                   )
 )
 
-
-;Facilitador
-(define (interpS [s : s-expression]) (interp (desugar (parse s)) empty))
-(interpS (read))
+(interp (desugar (parse (read))) biblioteca)

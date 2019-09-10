@@ -11,9 +11,34 @@ char *iffer(char *c, char *y, char *n) {
 	return res;
 }
 
-char *funcer(char *c, char *y){
-	char *res = malloc(strlen(c) + strlen(y) + 5);
-	sprintf(res, "%s %s", c, y);
+char *porc(char *c){
+	char *res = malloc(strlen(c) + 20);
+	sprintf(res, "(porcentagem %s)", c);
+	return res;
+}
+
+char *fat(char *c){
+	char *res = malloc(strlen(c) + 20);
+	sprintf(res, "(fatorial %s)", c);
+	return res;
+}
+
+char *cub(char *c){
+	char *res = malloc(strlen(c) + 20);
+	sprintf(res, "(cubo %s)", c);
+	return res;
+}
+
+char *mpk(char *c){
+	char *res = malloc(strlen(c) + 30);
+	sprintf(res, "(milhasParaKm %s)", c);
+	return res;
+}
+
+char *fpc(char *c){
+	char *res = malloc(strlen(c) + 50);
+	sprintf(res, "(fahrentheitParaCelsius %s)", c);
+	return res;
 }
 
 char *oper(char op, char *l, char *r) {
@@ -35,8 +60,8 @@ void yyerror(char *);
 }
 
 %token	<val> NUM
-%token  IF ADD SUB MUL DIV PRINT OPEN CLOSE
-%type	<val> exp FUNC 
+%token  PORC IF ADD SUB MUL DIV PRINT OPEN CLOSE MPK FPC FAT CUBO
+%type	<val> exp 
 
 /* Precedência */
 %left FUNC
@@ -64,7 +89,11 @@ exp: 			NUM 		{ $$ = dup($1); }
 		| 		exp SUB exp	{ $$ = oper('-', $1, $3);}
 		| 		exp MUL exp	{ $$ = oper('*', $1, $3);}
 		|		exp DIV exp { $$ = oper('/', $1, $3);}
-		|		FUNC exp { $$ = funcer($1, $2);}
+		|		PORC exp { $$ = porc($2);}
+		|		CUBO exp { $$ = cub($2);}
+		|		FAT exp { $$ = fat($2);}
+		|		MPK exp { $$ = mpk($2);}
+		|		FPC exp { $$ = fpc($2);}
 		| 		SUB exp %prec NEG  { $$ = oper('~', $2, "");} 
 		| 		OPEN exp CLOSE	{ $$ = dup($2);}
 ;
