@@ -139,11 +139,11 @@
 
 
 (define biblioteca (list 
-                    [fdC 'porcentagem 'x (divC 'x 100)]
-                    [fdC 'cubo 'y ( multC (multC (idC 'y) (idC 'y)) idC 'y)]
-                    [fdC 'milhasParaKm 'n (multC 1.609 'n)]
-                    [fdC 'fahrentheitParaCelsius 't (plusC (multC 1.8 't) 32)]
-                    [fdC 'fatorial 'n (ifC (gtC (idC'n) (numC 1)) 
+                    [fdC 'porcentagem 'x (divC (idC 'x) (numC 100))]
+                    [fdC 'cubo 'y ( multC (multC (idC 'y) (idC 'y)) (idC 'y))]
+                    [fdC 'milhasParaKm 'n (multC (numC 1.609) (idC 'n))]
+                    [fdC 'fahrentheitParaCelsius 't (plusC (multC (numC 1.8) (idC 't)) (numC 32))]
+                    [fdC 'fatorial 'n (ifC (gtC (idC 'n) (numC 1)) 
                                            (multC (appC 'fatorial (plusC (idC 'n) (numC -1))) (idC 'n))
                                            (numC 1))]
                   )
