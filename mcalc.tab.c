@@ -75,32 +75,32 @@ char *iffer(char *c, char *y, char *n) {
 }
 
 char *porc(char *c){
-	char *res = malloc(strlen(c) + 20);
-	sprintf(res, "(porcentagem %s)", c);
+	char *res = malloc(strlen(c) + 25);
+	sprintf(res, "(call porcentagem %s)", c);
 	return res;
 }
 
 char *fat(char *c){
-	char *res = malloc(strlen(c) + 20);
-	sprintf(res, "(fatorial %s)", c);
+	char *res = malloc(strlen(c) + 25);
+	sprintf(res, "(call fatorial %s)", c);
 	return res;
 }
 
 char *cub(char *c){
-	char *res = malloc(strlen(c) + 20);
-	sprintf(res, "(cubo %s)", c);
+	char *res = malloc(strlen(c) + 25);
+	sprintf(res, "(call cubo %s)", c);
 	return res;
 }
 
 char *mpk(char *c){
-	char *res = malloc(strlen(c) + 30);
-	sprintf(res, "(milhasParaKm %s)", c);
+	char *res = malloc(strlen(c) + 35);
+	sprintf(res, "(call milhasParaKm %s)", c);
 	return res;
 }
 
 char *fpc(char *c){
-	char *res = malloc(strlen(c) + 50);
-	sprintf(res, "(fahrentheitParaCelsius %s)", c);
+	char *res = malloc(strlen(c) + 55);
+	sprintf(res, "(call fahrentheitParaCelsius %s)", c);
 	return res;
 }
 
