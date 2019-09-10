@@ -22,7 +22,7 @@ E [Ee][+-]?{D}+
 [*]		{ return MUL; }
 [/]		{ return DIV; }
 (if)    { return IF;  }
-(func)  { return FUNC;}
+[a-z]+ { return FUNC;}
 
 .	{  fprintf(stderr, "Entrada ignorada\n-->%s\n", yytext); }
 

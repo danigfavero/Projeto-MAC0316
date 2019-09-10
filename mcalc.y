@@ -11,10 +11,9 @@ char *iffer(char *c, char *y, char *n) {
 	return res;
 }
 
-char *rem(char *l, char *r) {
-	char *res = malloc(2*strlen(l)+2*strlen(r)+20);
-	sprintf(res, "(- %s (* (/ %s %s) %s))", l, l, r, r);
-	return res;
+char *funcer(char *c, char *y){
+	char *res = malloc(strlen(c) + strlen(y) + 5);
+	sprintf(res, "%s %s", c, y);
 }
 
 char *oper(char op, char *l, char *r) {
@@ -36,8 +35,8 @@ void yyerror(char *);
 }
 
 %token	<val> NUM
-%token  FUNC IF ADD SUB MUL DIV PRINT OPEN CLOSE
-%type	<val> exp 
+%token  IF ADD SUB MUL DIV PRINT OPEN CLOSE
+%type	<val> exp FUNC 
 
 /* Precedência */
 %left FUNC
@@ -60,12 +59,12 @@ input:
 ;
 
 exp: 			NUM 		{ $$ = dup($1); }
-		|		FUNC exp { $$ = func($2);}
 		|		IF exp exp exp { $$ = iffer($2, $3, $4);}
 		| 		exp ADD exp	{ $$ = oper('+', $1, $3);}
 		| 		exp SUB exp	{ $$ = oper('-', $1, $3);}
 		| 		exp MUL exp	{ $$ = oper('*', $1, $3);}
 		|		exp DIV exp { $$ = oper('/', $1, $3);}
+		|		FUNC exp { $$ = funcer($1, $2);}
 		| 		SUB exp %prec NEG  { $$ = oper('~', $2, "");} 
 		| 		OPEN exp CLOSE	{ $$ = dup($2);}
 ;
