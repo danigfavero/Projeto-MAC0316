@@ -35,6 +35,7 @@
   [ifS     (c : ExprS) (y : ExprS) (n : ExprS)]
   [setS    (var : symbol) (arg : ExprS)]
   [seqS    (b1 : ExprS) (b2 : ExprS)]
+  [letS    (id : symbol) (val : ExprS) (body : ExprS)]
 )
 
 
@@ -56,6 +57,7 @@
     [ifS     (c y n) (ifC (desugar c) (desugar y) (desugar n))]
     [setS    (s v)   (setC s (desugar v))]
     [seqS    (b1 b2) (seqC (desugar b1) (desugar b2))]
+    [letS    (id : symbol) (val : ExprS) (body : ExprS)]
   )
 )
 
@@ -244,6 +246,18 @@
     ;[gtC  (l r)  (b->n (>   (interp l fds) (interp r fds)))]
     ; ifC já serializa
     [ifC (c y n) (if (zero? (numV-n (v*s-v (interp c env sto)))) (interp n env sto) (interp y env sto))]
+    [setC (var val) (type-case Result (interp val env sto)
+                     [v*s (v-val s-val)
+                          (let ([onde (lookup var env)]) ; acha a variável
+                            (v*s v-val
+                                 (override-store ; atualiza
+                                  (cell onde v-val) s-val
+                                 )
+                            )
+                          )
+                     ]
+                    )
+    ]
   )
 )
 
@@ -268,6 +282,7 @@
          [(if) (ifS (parse (second sl)) (parse (third sl)) (parse (fourth sl)))]
          [(:=) (setS (s-exp->symbol (second sl)) (parse (third sl)))]
          [(seq) (seqS (parse (second sl)) (parse (third sl)))]
+         [(def) (letS (s-exp->symbol (second sl)) (parse (third sl)) (parse (fourth sl)))]
          [else (error 'parse "invalid list input")]))]
     [else (error 'parse "invalid input")]
   )
