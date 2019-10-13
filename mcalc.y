@@ -77,6 +77,7 @@ exp: 			NUM 		{ $$ = dup($1); }
 		|		exp DIV exp { $$ = oper('/', $1, $3);}
 		| 		SUB exp %prec NEG  { $$ = oper('~', $2, "");} 
 		| 		OPEN NAME CLOSE	{ $$ = dup($2);}
+		| 		OPEN exp CLOSE	{ $$ = dup($2);}
 ;
 
 %%
