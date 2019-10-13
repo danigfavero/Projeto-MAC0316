@@ -1,6 +1,6 @@
 D [0-9]
 E [Ee][+-]?{D}+
-F [a-zA-Z]+
+F [A-Za-z]+
 
 %{
 #include <math.h>

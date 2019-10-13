@@ -11,17 +11,19 @@ char *iffer(char *c, char *y, char *n) {
 	return res;
 }
 
-char *deefer(char *f, char *x, char *b, char *d) {
-	char *res = malloc(2*strlen(f) + strlen(x) + strlen(b) + strlen(d) + 35);
-	sprintf(res, "(def %s 1729 (seq (:= %s (func %s %s)) %s))", f, f, x, b, d);
-	return res;
-}
-
 char *caller(char *f, char *x) {
 	char *res = malloc(strlen(f) + strlen(x) + 10);
 	sprintf(res, "(call %s %s)", f, x);
 	return res;
 }
+
+char *deefer(char *f, char *x, char *b, char *v) {
+	char *plc = caller(f, v);
+	char *res = malloc(2*strlen(f) + strlen(x) + strlen(b) + strlen(plc) + 37);
+	sprintf(res, "(def %s 1729 (seq (:= %s (func %s %s)) %s))", f, f, x, b, plc);
+	return res;
+}
+
 
 char *varrer(char *n, char* v){
 	char *res = malloc(2*strlen(n) + strlen(v) + 10);
@@ -74,17 +76,16 @@ input:
 ;
 
 exp: 			NUM 		{ $$ = dup($1); }
-		|		DEF NAME exp exp exp { $$ = deefer($2, $3, $4, $5);}
-		|		VAR NAME exp { $$ = varrer($2, $3);}
-		|		CALL NAME exp { $$ = caller($2, $3);}
+		|		NAME 		{ $$ = dup($1); }
+		| 		OPEN exp CLOSE	{ $$ = dup($2);}
+		|		DEF exp exp exp exp { $$ = deefer($2, $3, $4, $5);}
+		|		VAR exp exp { $$ = varrer($2, $3);}
 		|		IF exp exp exp { $$ = iffer($2, $3, $4);}
 		| 		exp ADD exp	{ $$ = oper('+', $1, $3);}
 		| 		exp SUB exp	{ $$ = oper('-', $1, $3);}
 		| 		exp MUL exp	{ $$ = oper('*', $1, $3);}
 		|		exp DIV exp { $$ = oper('/', $1, $3);}
 		| 		SUB exp %prec NEG  { $$ = oper('~', $2, "");} 
-		| 		OPEN NAME CLOSE	{ $$ = dup($2);}
-		| 		OPEN exp CLOSE	{ $$ = dup($2);}
 ;
 
 %%
