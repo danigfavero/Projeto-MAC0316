@@ -26,7 +26,7 @@ F [a-zA-Z]+
 (if)    { return IF;  }
 (call)  { return CALL;}
 (def)   { return DEF; }
-{F}     { yylval.val = yytext; return FUNC; }
+{F}     { yylval.val = yytext; return NAME; }
 
 .	{  fprintf(stderr, "Entrada ignorada\n-->%s\n", yytext); }
 
