@@ -7,5 +7,5 @@ do
     echo Teste $i:
     cat testes/t$i
     echo Resposta:
-    ./mcalc <t$i |./interp 
+    ./mcalc <testes/t$i |./interp 
 done
