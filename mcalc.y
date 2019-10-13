@@ -11,33 +11,9 @@ char *iffer(char *c, char *y, char *n) {
 	return res;
 }
 
-char *porc(char *c){
-	char *res = malloc(strlen(c) + 25);
-	sprintf(res, "(call porcentagem %s)", c);
-	return res;
-}
-
-char *fat(char *c){
-	char *res = malloc(strlen(c) + 25);
-	sprintf(res, "(call fatorial %s)", c);
-	return res;
-}
-
-char *cub(char *c){
-	char *res = malloc(strlen(c) + 25);
-	sprintf(res, "(call cubo %s)", c);
-	return res;
-}
-
-char *mpk(char *c){
-	char *res = malloc(strlen(c) + 35);
-	sprintf(res, "(call milhasParaKm %s)", c);
-	return res;
-}
-
-char *fpc(char *c){
-	char *res = malloc(strlen(c) + 55);
-	sprintf(res, "(call fahrentheitParaCelsius %s)", c);
+char *deeef(char *f, char *x, char *b, char *d) {
+	char *res = malloc(2*strlen(f) + strlen(x) + strlen(b) + strlen(d) + 35);
+	sprintf(res, "(def %s 1729 (seq (:= %s (func %s %s)) %s))", f, f, x, b, d);
 	return res;
 }
 
@@ -51,6 +27,16 @@ char *dup(char *orig) {
 	strcpy(res,orig);
 	return res;
 }
+
+char *def(char *vaca) {
+	return NULL;
+}
+char *caller(char *f, char *x) {
+	char *res = malloc(strlen(f) + strlen(x) + 10);
+	sprintf(res, "(call %s %s)", f, x);
+	return res;
+	
+}
 int yylex();
 void yyerror(char *);
 %}
@@ -59,12 +45,12 @@ void yyerror(char *);
 	char *val;
 }
 
-%token	<val> NUM
-%token  PORC IF ADD SUB MUL DIV PRINT OPEN CLOSE MPK FPC FAT CUBO
+%token	<val> NUM FUNC
+%token  IF ADD SUB MUL DIV OPEN CLOSE DEF CALL NEG 
 %type	<val> exp 
 
 /* Precedência */
-%left FUNC
+%left DEF CALL 
 %left IF
 %left ADD SUB
 %left MUL DIV
@@ -84,16 +70,13 @@ input:
 ;
 
 exp: 			NUM 		{ $$ = dup($1); }
+		|		DEF exp { $$ = def($2);}
+		|		CALL FUNC exp { $$ = caller($2, $3);}
 		|		IF exp exp exp { $$ = iffer($2, $3, $4);}
 		| 		exp ADD exp	{ $$ = oper('+', $1, $3);}
 		| 		exp SUB exp	{ $$ = oper('-', $1, $3);}
 		| 		exp MUL exp	{ $$ = oper('*', $1, $3);}
 		|		exp DIV exp { $$ = oper('/', $1, $3);}
-		|		PORC exp { $$ = porc($2);}
-		|		CUBO exp { $$ = cub($2);}
-		|		FAT exp { $$ = fat($2);}
-		|		MPK exp { $$ = mpk($2);}
-		|		FPC exp { $$ = fpc($2);}
 		| 		SUB exp %prec NEG  { $$ = oper('~', $2, "");} 
 		| 		OPEN exp CLOSE	{ $$ = dup($2);}
 ;

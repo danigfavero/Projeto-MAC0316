@@ -1,5 +1,6 @@
 D [0-9]
 E [Ee][+-]?{D}+
+F [a-zA-Z]+
 
 %{
 #include <math.h>
@@ -9,7 +10,7 @@ E [Ee][+-]?{D}+
 
 
 %%
-({D}*[.]?{D}+{E}?)	{ yylval.val = yytext; return NUM; }
+{D}*[.]?{D}+{E}?	{ yylval.val = yytext; return NUM; }
 
 [ \t\n]+	/* pula espacos em branco */
 
@@ -21,12 +22,11 @@ E [Ee][+-]?{D}+
 [-]		{ return SUB; }
 [*]		{ return MUL; }
 [/]		{ return DIV; }
+[~]		{ return NEG; }
 (if)    { return IF;  }
-(porcentagem) { return PORC;}
-(cubo) { return CUBO;}
-(fatorial) { return FAT;}
-(milhasParaKm) {return MPK;}
-(fahrentheitParaCelsius) {return FPC;}
+(call)  { return CALL;}
+(def)   { return DEF; }
+{F}     { yylval.val = yytext; return FUNC; }
 
 .	{  fprintf(stderr, "Entrada ignorada\n-->%s\n", yytext); }
 
