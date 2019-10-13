@@ -17,6 +17,18 @@ char *deefer(char *f, char *x, char *b, char *d) {
 	return res;
 }
 
+char *caller(char *f, char *x) {
+	char *res = malloc(strlen(f) + strlen(x) + 10);
+	sprintf(res, "(call %s %s)", f, x);
+	return res;
+}
+
+char *varrer(char *n, char* v){
+	char *res = malloc(2*strlen(n) + strlen(v) + 10);
+	sprintf(res, "(def %s %s %s)", n, v, n);
+	return res;
+}
+
 char *oper(char op, char *l, char *r) {
 	char *res = malloc(strlen(l)+strlen(r)+6);
 	sprintf(res, "(%c %s %s)", op, l, r);
@@ -28,12 +40,6 @@ char *dup(char *orig) {
 	return res;
 }
 
-char *caller(char *f, char *x) {
-	char *res = malloc(strlen(f) + strlen(x) + 10);
-	sprintf(res, "(call %s %s)", f, x);
-	return res;
-
-}
 
 int yylex();
 void yyerror(char *);
@@ -44,11 +50,11 @@ void yyerror(char *);
 }
 
 %token	<val> NUM NAME
-%token  IF ADD SUB MUL DIV OPEN CLOSE DEF CALL NEG 
+%token  IF ADD SUB MUL DIV OPEN CLOSE DEF CALL NEG VAR
 %type	<val> exp 
 
 /* Precedência */
-%left DEF CALL 
+%left DEF VAR CALL 
 %left IF
 %left ADD SUB
 %left MUL DIV
@@ -69,6 +75,7 @@ input:
 
 exp: 			NUM 		{ $$ = dup($1); }
 		|		DEF NAME exp exp exp { $$ = deefer($2, $3, $4, $5);}
+		|		VAR NAME exp { $$ = varrer($2, $3);}
 		|		CALL NAME exp { $$ = caller($2, $3);}
 		|		IF exp exp exp { $$ = iffer($2, $3, $4);}
 		| 		exp ADD exp	{ $$ = oper('+', $1, $3);}
