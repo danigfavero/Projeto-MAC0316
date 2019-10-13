@@ -5,7 +5,7 @@ Daniela Gonzalez Favero 10277443
 
 Como executar o código:
     - dê make
-    - execute ./tester
-    - caso queira gerar novos testes, crie um arquivo ti (com i > 10)
-        com uma linha de teste, dê make e execute ./tester novamente
+    - execute ./tester i, onde i é o número de arquivos de teste existentes
+    - caso queira gerar novos testes, crie um arquivo ti (i = min{naturais > 0 | não existe ti}) e coloque-o na pasta "testes"
+        com uma linha de teste execute ./tester novamente
         (as especificações da gramática estão documentadas no arquivo bison)  
