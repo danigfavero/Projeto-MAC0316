@@ -1,1 +1,1 @@
-milhasParaKm 36
+def milhasParaKm n (n * 1.609) 36

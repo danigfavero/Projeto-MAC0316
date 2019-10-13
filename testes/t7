@@ -1,1 +1,1 @@
-cubo 2
+def cubo x (x * x * x) 2
