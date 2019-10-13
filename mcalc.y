@@ -77,6 +77,7 @@ input:
 
 exp: 			NUM 		{ $$ = dup($1); }
 		|		NAME 		{ $$ = dup($1); }
+		|		CALL exp exp { $$ = caller($2, $3);}
 		| 		OPEN exp CLOSE	{ $$ = dup($2);}
 		|		DEF exp exp exp exp { $$ = deefer($2, $3, $4, $5);}
 		|		VAR exp exp { $$ = varrer($2, $3);}

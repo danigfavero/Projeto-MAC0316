@@ -1,1 +1,1 @@
-fatorial 7
+def fatorial n (if n (n * (call fatorial (n - 1))) (1)) 7
